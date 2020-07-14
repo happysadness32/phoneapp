@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>index</title>
+    <style>
+        body {
+            background: black;
+            padding: 20px;
+            background-image: url("http://127.0.0.1:5000/static/6.jpg");
+        }
+        
+        marquee {
+            font-weight: bolder;
+            font-size: 40px;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <marquee id="mq" direction="right" behavior="alternate" scrolldelay="800" scrollamount="100">RIGHT</marquee>
+
+
+    <script>
+        $(function() {
+            setInterval(getLoc, 5000);
+            //getLoc();
+            function getLoc() {
+                $.ajax({
+                    type: 'get',
+                    url: 'http://127.0.0.1:5000/cmt',
+                    async: true,
+                    complete: function(data) {
+                        console.log(data);
+                        res = JSON.parse(data.responseText)
+                        console.log(res["data"]["state"])
+                        var name = res["data"]["name"]
+                        $("#mq").text(res["data"]["state"])
+                        $("body").css("background", "url('http://127.0.0.1:5000/static/" + name + "')")
+                    }
+
+                })
+
+                console.log("asd")
+            }
+        });
+    </script>
+</body>
+
+</html>
